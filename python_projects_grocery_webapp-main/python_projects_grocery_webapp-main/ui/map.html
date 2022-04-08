@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MAP</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style type="text/css">
+
+/* map needs width and height to appear */
+#map{
+	width: 900px;
+	max-width: 100%;
+	height: 500px;
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- this div will hold your map -->
+<div id="map"></div>
+
+<!-- this div will hold your store info -->
+<div id="info_div"></div>
+
+<script>
+function initMap() {
+	var myMapCenter = {lat: 19.0760, lng: 72.8777};
+
+	// Create a map object and specify the DOM element for display.
+	var map = new google.maps.Map(document.getElementById('map'), {
+		center: myMapCenter,
+		zoom: 10
+	});
+
+
+	function markStore(storeInfo){
+
+		// Create a marker and set its position.
+		var marker = new google.maps.Marker({
+			map: map,
+			position: storeInfo.location,
+			title: storeInfo.name
+		});
+
+		// show store info when marker is clicked
+		marker.addListener('click', function(){
+			showStoreInfo(storeInfo);
+		});
+	}
+
+	// show store info in text box
+	function showStoreInfo(storeInfo){
+		var info_div = document.getElementById('info_div');
+		info_div.innerHTML = 'Store name: '
+			+ storeInfo.name
+			+ '<br>Hours: ' + storeInfo.hours;
+	}
+
+	var stores = [
+		{
+			name: 'Store 1',
+			location: {lat: 19.2952, lng: 72.8544},
+			hours: '8AM to 10PM',
+			
+		},
+		{
+			name: 'Store 2',
+			location: {lat: 19.0760, lng: 72.8777},
+			hours: '9AM to 9PM'
+        },
+        {
+            name: 'Store 3',
+            location: {lat: 19.1874, lng: 72.8484 },
+            hours: '8AM to 9AM'
+
+		},
+		{
+			name: 'Store 4',
+			location: {lat:19.3919, lng: 72.8397 },
+			hours: '9AM to 8AM'
+		},
+	];
+
+	stores.forEach(function(store){
+		markStore(store);
+	});
+
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAtlPdn3Y2wuJMOoA_5jE4v983fIngF7g&callback=initMap" async defer></script>
+</body>
+</html>
